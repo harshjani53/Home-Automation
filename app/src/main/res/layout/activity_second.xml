@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+
+    <TextView
+        android:id="@+id/devFour"
+        android:layout_width="203dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:text="Device 4"
+        android:textAlignment="center"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/devThree" />
+
+    <TextView
+        android:id="@+id/devThree"
+        android:layout_width="203dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:text="Device 3"
+        android:textAlignment="center"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/devTwo" />
+
+    <TextView
+        android:id="@+id/devOne"
+        android:layout_width="203dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="100dp"
+        android:text="Device 1"
+        android:textAlignment="center"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bluetoothConnection" />
+
+    <TextView
+        android:id="@+id/bluetoothConnection"
+        android:layout_width="396dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="40dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/devTwo"
+        android:layout_width="203dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:text="Device 2"
+        android:textAlignment="center"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/devOne" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
