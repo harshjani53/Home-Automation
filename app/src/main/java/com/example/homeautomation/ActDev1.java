@@ -1,5 +1,5 @@
 package com.example.homeautomation;
-
+//someone was here
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
