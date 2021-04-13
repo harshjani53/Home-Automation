@@ -12,8 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HomeAutomation">
-        <activity android:name=".ActDev4" android:parentActivityName=".SecondActivity"></activity>
-        <activity android:name=".ActDev3" android:parentActivityName=".SecondActivity"></activity>
         <activity android:name=".ActDev2" android:parentActivityName=".SecondActivity"></activity>
         <activity android:name=".ActDev1" android:parentActivityName=".SecondActivity"></activity>
         <activity android:name=".PasswordActivity" />

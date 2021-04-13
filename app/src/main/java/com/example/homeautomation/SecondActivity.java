@@ -23,8 +23,7 @@ public class SecondActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private TextView tvDev1;
     private TextView tvDev2;
-    private TextView tvDev3;
-    private TextView tvDev4;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,8 +52,6 @@ public class SecondActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         tvDev1 = (TextView) findViewById(R.id.devOne);
         tvDev2 = (TextView) findViewById(R.id.devTwo);
-        tvDev3 = (TextView) findViewById(R.id.devThree);
-        tvDev4 = (TextView) findViewById(R.id.devFour);
 
         tvDev1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,30 +74,6 @@ public class SecondActivity extends AppCompatActivity {
                 }
                 else{
                     startActivity(new Intent(getApplicationContext(), ActDev2.class));
-            }}
-        });
-
-        tvDev3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bluetoothAdapter.isEnabled())
-                {
-                    Toast.makeText(getApplicationContext(),"Please Turn On Bluetooth",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    startActivity(new Intent(getApplicationContext(), ActDev3.class));
-            }}
-        });
-
-        tvDev4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!bluetoothAdapter.isEnabled())
-                {
-                    Toast.makeText(getApplicationContext(),"Please Turn On Bluetooth",Toast.LENGTH_LONG).show();
-                }
-                else{
-                startActivity(new Intent(getApplicationContext(), ActDev4.class));
             }}
         });
 
