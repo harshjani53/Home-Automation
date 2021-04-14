@@ -1,17 +1,14 @@
 package com.example.homeautomation;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -21,8 +18,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText eMail;
     private EditText name;
     private EditText pass;
-    private Button register;
-    private TextView alreadySignUp;
     private FirebaseAuth firebaseAuth;
     String emailAddress;
     String password;
@@ -36,62 +31,48 @@ public class RegistrationActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.nameReg);
         eMail = (EditText) findViewById(R.id.eMailReg);
         pass = (EditText) findViewById(R.id.passReg);
-        register = (Button) findViewById(R.id.btnReg);
-        alreadySignUp = (TextView) findViewById(R.id.alreadySignUp);
+        Button register = (Button) findViewById(R.id.btnReg);
+        TextView alreadySignUp = (TextView) findViewById(R.id.alreadySignUp);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(permission()){
-                    String userEmail = eMail.getText().toString().trim();
-                    String userPass = pass.getText().toString().trim();
+        register.setOnClickListener(v -> {
+            if(permission()){
+                String userEmail = eMail.getText().toString().trim();
+                String userPass = pass.getText().toString().trim();
 
-                    firebaseAuth.createUserWithEmailAndPassword(userEmail,userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> res) {
-                            if(res.isSuccessful()) {
-                                emailVerify();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(), "Registration Error", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+                firebaseAuth.createUserWithEmailAndPassword(userEmail,userPass).addOnCompleteListener(res -> {
+                    if(res.isSuccessful()) {
+                        emailVerify();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Registration Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
-        alreadySignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            }
-        });
+        alreadySignUp.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),MainActivity.class)));
     }
 
     private void emailVerify(){
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser!= null){
-            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Data();
-                        Toast.makeText(getApplicationContext(),"Email Verification mail has been sent",Toast.LENGTH_SHORT).show();
-                        firebaseAuth.signOut();
-                        finish();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"Verification Failed",Toast.LENGTH_SHORT).show();
-                    }
+            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Data();
+                    Toast.makeText(getApplicationContext(),"Email Verification mail has been sent",Toast.LENGTH_SHORT).show();
+                    firebaseAuth.signOut();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Verification Failed",Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
     private Boolean permission(){
-        Boolean perm=false;
+        boolean perm=false;
         String uName = name.getText().toString();
         String uPass = pass.getText().toString();
         String uEmail = eMail.getText().toString();
