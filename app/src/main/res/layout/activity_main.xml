@@ -18,7 +18,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        />
 
     <EditText
         android:id="@+id/userPassword"
@@ -30,7 +31,8 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/userName"
         app:layout_constraintStart_toStartOf="@+id/userName"
-        app:layout_constraintTop_toBottomOf="@+id/userName" />
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        />
 
     <Button
         android:id="@+id/loginBtn"
@@ -57,9 +59,9 @@
 
     <TextView
         android:id="@+id/signUp"
-        android:layout_width="223dp"
-        android:layout_height="39dp"
-        android:text="New User? Sign Up"
+        android:layout_width="256dp"
+        android:layout_height="75dp"
+        android:text="New User? Signup"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,6 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        app:srcCompat="@mipmap/ic_launcher_round"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

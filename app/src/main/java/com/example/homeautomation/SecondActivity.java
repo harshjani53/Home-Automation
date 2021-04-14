@@ -1,29 +1,27 @@
 package com.example.homeautomation;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothHeadset;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Set;
-
 public class SecondActivity extends AppCompatActivity {
-    private TextView bluetoothInfo;
+    private Button openList;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothDevice bcd;
     private FirebaseAuth firebaseAuth;
     private TextView tvDev1;
     private TextView tvDev2;
-
+    public static final String message = "";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,10 +46,13 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothInfo = (TextView) findViewById(R.id.bluetoothConnection);
         firebaseAuth = FirebaseAuth.getInstance();
         tvDev1 = (TextView) findViewById(R.id.devOne);
         tvDev2 = (TextView) findViewById(R.id.devTwo);
+        openList = (Button) findViewById(R.id.btnCon);
+
+        Intent msgintent = getIntent();
+        String msgGet = msgintent.getStringExtra(listActivity.message);
 
         tvDev1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +62,14 @@ public class SecondActivity extends AppCompatActivity {
                        Toast.makeText(getApplicationContext(),"Please Turn On Bluetooth",Toast.LENGTH_LONG).show();
                    }
                    else{
-                       startActivity(new Intent(getApplicationContext(), ActDev1.class));
+                       try {
+                           Intent intent = new Intent(getApplicationContext(), ActDev1.class);
+                           intent.putExtra(message, msgGet);
+                           startActivity(intent);
+                       }
+                       catch (Exception e){
+                           Toast.makeText(getApplicationContext(),"Please Select One of Paired Devices First",Toast.LENGTH_LONG).show();
+                       }
             }}
         });
 
@@ -73,16 +81,26 @@ public class SecondActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Please Turn On Bluetooth",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    startActivity(new Intent(getApplicationContext(), ActDev2.class));
+                    try {
+                        Intent intent = new Intent(getApplicationContext(), ActDev2.class);
+                        intent.putExtra(message, msgGet);
+                        startActivity(intent);
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"Please Select One of Paired Devices First",Toast.LENGTH_LONG).show();
+                    }
             }}
         });
-
-        if (bluetoothAdapter == null) {
-            bluetoothInfo.setText("Bluetooth Not available");
-        } else if (!bluetoothAdapter.isEnabled()) {
-            bluetoothInfo.setText("Please Turn On Bluetooth");
-        } else {
-            bluetoothInfo.setText("Bluetooth connected");
-        }
+        openList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!bluetoothAdapter.isEnabled() || bluetoothAdapter==null){
+                    Toast.makeText(getApplicationContext(),"Please Turn On Bluetooth",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    startActivity(new Intent(getApplicationContext(), listActivity.class));
+                }
+            }
+        });
     }
 }

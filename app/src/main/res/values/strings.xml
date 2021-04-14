@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Home Automation</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="On">ON</string>
+    <string name="Off">OFF</string>
+    <string name="on">ON</string>
+    <string name="off">OFF</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="todo">TODO</string>
+    <string name="new_user_sign_up">New User? Sign Up</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_e_mail">Enter E-Mail</string>
+    <string name="enter_password">Enter Password</string>
 </resources>

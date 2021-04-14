@@ -2,17 +2,13 @@ package com.example.homeautomation;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +38,6 @@ public class RegistrationActivity extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.passReg);
         register = (Button) findViewById(R.id.btnReg);
         alreadySignUp = (TextView) findViewById(R.id.alreadySignUp);
-
         firebaseAuth = FirebaseAuth.getInstance();
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +102,6 @@ public class RegistrationActivity extends AppCompatActivity {
         else{
             perm=true;
         }
-
         return perm;
     }
 
