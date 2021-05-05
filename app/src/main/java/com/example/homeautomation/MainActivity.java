@@ -1,6 +1,5 @@
 package com.example.homeautomation;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,30 +8,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 
 public class MainActivity extends AppCompatActivity {
     private EditText Name;
     private EditText Password;
-    private Button LoginBtn;
-    private TextView signUp;
     private FirebaseAuth firebaseAuth;
-    private TextView forgetPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Name = (EditText) findViewById(R.id.userName);
-        Password = (EditText) findViewById(R.id.userPassword);
-        LoginBtn = (Button) findViewById(R.id.loginBtn);
-        signUp = (TextView) findViewById(R.id.signUp);
-        forgetPass = (TextView) findViewById(R.id.forgotPass);
+        Name = findViewById(R.id.userName);
+        Password = findViewById(R.id.userPassword);
+        Button loginBtn = findViewById(R.id.loginBtn);
+        TextView signUp = findViewById(R.id.signUp);
+        TextView forgetPass = findViewById(R.id.forgotPass);
         firebaseAuth = FirebaseAuth.getInstance();
 
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -42,48 +38,34 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(),SecondActivity.class));
         }
 
-        forgetPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),PasswordActivity.class));
-            }
-        });
+        forgetPass.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),PasswordActivity.class)));
 
-        LoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                entry(Name.getText().toString(),Password.getText().toString());
-            }
+        loginBtn.setOnClickListener(v -> {
+            String Hpass = Password.getText().toString();
+            Hpass= sha256Hex(Hpass);
+            entry(Name.getText().toString(),Hpass);
         });
-
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegistrationActivity.class));
-            }
-        });
+        
+        signUp.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(),RegistrationActivity.class)));
     }
 
     private void entry(String uName, String uPass){
         try {
-            firebaseAuth.signInWithEmailAndPassword(uName, uPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> rest) {
-                    if (rest.isSuccessful()) {
-                        verify();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Enter correct Credentials", Toast.LENGTH_SHORT).show();
-                    }
+            firebaseAuth.signInWithEmailAndPassword(uName, uPass).addOnCompleteListener(rest -> {
+                if (rest.isSuccessful()) {
+                    verify();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Enter correct Credentials", Toast.LENGTH_SHORT).show();
                 }
             });
         }
         catch(Exception e){
-         Toast.makeText(getApplicationContext(),"Please Enter Your Credentials Before Login",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Please Enter Your Credentials Before Login",Toast.LENGTH_LONG).show();
         }
     }
 
     private void verify(){
-        FirebaseUser firebaseUser = firebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         boolean eVerify = firebaseUser.isEmailVerified();
 
         if(eVerify){
@@ -93,6 +75,25 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(getApplicationContext(),"Verify E-Mail Please",Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
+        }
+    }
+    public static String sha256Hex(String hexBase){
+        try{
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            byte [] hexId = messageDigest.digest(hexBase.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hexId) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

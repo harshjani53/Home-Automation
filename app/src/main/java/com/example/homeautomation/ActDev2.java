@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import java.io.OutputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ActDev2 extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class ActDev2 extends AppCompatActivity {
     public BluetoothAdapter bluetoothAdapter= BluetoothAdapter.getDefaultAdapter();
     public BluetoothSocket bluetoothSocket=null;
     public BluetoothDevice bluetoothDevice= null;
+    SharedPreferences sharedPreferences;
 
     private void sendMessage(BluetoothSocket socket, char msg) {
         OutputStream outStream;
@@ -59,16 +62,14 @@ public class ActDev2 extends AppCompatActivity {
         setContentView(R.layout.activity_act_dev2);
         onButton2 =  findViewById(R.id.onBtn2);
         offButton2 =  findViewById(R.id.offBtn2);
+        sharedPreferences = getSharedPreferences("Mac",MODE_PRIVATE);
+        String gotAddress = sharedPreferences.getString("MacAddress", "");
 
-        Intent msg = getIntent();
-        String msgGet = msg.getStringExtra(SecondActivity.message);
-        System.out.println(msgGet);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Device 2");
 
         try{
-            bluetoothDevice = bluetoothAdapter.getRemoteDevice(msgGet);
+            bluetoothDevice = bluetoothAdapter.getRemoteDevice(gotAddress);
             UUID uuid = bluetoothDevice.getUuids()[0].getUuid();
             bluetoothSocket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid);
             bluetoothSocket.connect();
@@ -81,21 +82,31 @@ public class ActDev2 extends AppCompatActivity {
         onButton2.setOnClickListener(v -> {
             if(bluetoothSocket.isConnected()){
                 sendMessage(bluetoothSocket, 'B');
-                System.out.println("sent");
+                Toast.makeText(getApplicationContext(), "ON",Toast.LENGTH_SHORT).show();
             }
             else{
-                System.out.println("Not");
+                Toast.makeText(getApplicationContext(), "Something Wrong Happened",Toast.LENGTH_SHORT).show();
             }
         });
 
         offButton2.setOnClickListener(v -> {
             if(bluetoothSocket.isConnected()){
                 sendMessage(bluetoothSocket, 'b');
-                System.out.println("sent");
+                Toast.makeText(getApplicationContext(), "OFF",Toast.LENGTH_SHORT).show();
             }
             else{
-                System.out.println("Not");
+                Toast.makeText(getApplicationContext(), "Something Wrong Happened",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            bluetoothSocket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
     }
 }
