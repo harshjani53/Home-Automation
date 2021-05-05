@@ -44,7 +44,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 String userEmail = eMail.getText().toString().trim();
                 String userPass = pass.getText().toString().trim();
                 userPass = sha256Hex(userPass);
-                System.out.println("3333333333333333333333333333     " + userPass);
 
                 firebaseAuth.createUserWithEmailAndPassword(userEmail,userPass).addOnCompleteListener(res -> {
                     if(res.isSuccessful()) {
@@ -97,7 +96,6 @@ public class RegistrationActivity extends AppCompatActivity {
         emailAddress = eMail.getText().toString();
         password = pass.getText().toString();
         password = sha256Hex(password);
-        System.out.println(password);
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference ref = firebaseDatabase.getReference(Objects.requireNonNull(firebaseAuth.getUid()));
         HomeAutomationDatabase database = new HomeAutomationDatabase(storedName, emailAddress, password);
